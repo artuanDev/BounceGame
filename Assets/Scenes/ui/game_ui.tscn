@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfb1ixsrvtvmd"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_malxo"]
+light_mode = 1
+
+[sub_resource type="Theme" id="Theme_hhu3f"]
+
+[node name="GameUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color(0.7729294, 0.45715195, 0.75175196, 1)
+self_modulate = Color(0.8088144, 0.67078, 0.8265177, 1)
+top_level = true
+material = SubResource("CanvasItemMaterial_malxo")
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_hhu3f")

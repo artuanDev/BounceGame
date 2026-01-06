@@ -1,0 +1,57 @@
+[gd_scene load_steps=11 format=3 uid="uid://dtxal62ad6m0g"]
+
+[ext_resource type="Script" uid="uid://jg3tsx58plp0" path="res://Assets/Scripts/BasicMovement.gd" id="1_7gy7k"]
+[ext_resource type="Script" uid="uid://cpss62xjnb5vi" path="res://Assets/Scripts/ShooterComponent.gd" id="2_tr1td"]
+[ext_resource type="PackedScene" uid="uid://dfb1ixsrvtvmd" path="res://Assets/Scenes/ui/game_ui.tscn" id="3_6n3ac"]
+[ext_resource type="PackedScene" uid="uid://0ltem1mjcrk2" path="res://Assets/Scenes/Prefabs/shoot_decal.tscn" id="3_qxcix"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6b44n"]
+albedo_color = Color(0.2566953, 0.49112505, 0.262041, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6b44n"]
+
+[sub_resource type="Sky" id="Sky_7gy7k"]
+sky_material = SubResource("ProceduralSkyMaterial_6b44n")
+
+[sub_resource type="Environment" id="Environment_6b44n"]
+background_mode = 2
+background_energy_multiplier = 2.0
+sky = SubResource("Sky_7gy7k")
+ambient_light_source = 3
+ambient_light_color = Color(0.45844966, 0.778375, 0.8407784, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7gy7k"]
+albedo_color = Color(0.81255186, 0.41123092, 0.25200546, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6b44n"]
+height = 2.7163086
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera")]
+script = ExtResource("1_7gy7k")
+camera = NodePath("BodyGraphic/Camera3D")
+
+[node name="BodyGraphic" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3359375, 0)
+material_override = SubResource("StandardMaterial3D_6b44n")
+height = 2.671875
+
+[node name="Camera3D" type="Camera3D" parent="BodyGraphic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2364292, 0)
+environment = SubResource("Environment_6b44n")
+fov = 65.0
+near = 0.001
+script = ExtResource("2_tr1td")
+decal = ExtResource("3_qxcix")
+
+[node name="Gun" type="CSGBox3D" parent="BodyGraphic/Camera3D"]
+transform = Transform3D(0.15974712, 0, 0, 0, 0.40330195, 0, 0, 0, 1, 0.2380321, -0.5199373, -0.88856804)
+material_override = SubResource("StandardMaterial3D_7gy7k")
+size = Vector3(1, 0.5576172, 1)
+
+[node name="GameUI" parent="BodyGraphic/Camera3D" instance=ExtResource("3_6n3ac")]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CollisionComponent" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3581543, 0)
+shape = SubResource("CylinderShape3D_6b44n")
