@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=4 uid="uid://ciukptjiywrwk"]
+[gd_scene load_steps=11 format=4 uid="uid://ciukptjiywrwk"]
 
 [ext_resource type="PackedScene" uid="uid://dtxal62ad6m0g" path="res://Assets/Scenes/Prefabs/Player.tscn" id="2_5d8hy"]
 [ext_resource type="AudioStream" uid="uid://dbups7e8js6wb" path="res://Assets/Sounds/Music/Chiptune.mp3" id="3_dl7wa"]
 [ext_resource type="PackedScene" uid="uid://cmix2pt6hn6ny" path="res://Assets/Scenes/Prefabs/zombie.tscn" id="3_iti4s"]
+[ext_resource type="Material" uid="uid://bfv2iukkcaj1i" path="res://Assets/Shaders/SquaredTiles.tres" id="3_x4su1"]
 [ext_resource type="AudioStream" uid="uid://bqi54qjlja03b" path="res://Assets/Sounds/SFX/laserShoot.wav" id="4_x4su1"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_iti4s"]
@@ -73,6 +74,7 @@ visible = false
 
 [node name="TestScene_01" type="MeshInstance3D" parent="Geometry"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 1.0922873, 0.050920725, -1.4134388)
+material_override = ExtResource("3_x4su1")
 mesh = SubResource("ArrayMesh_noque")
 skeleton = NodePath("")
 
