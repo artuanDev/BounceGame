@@ -1,0 +1,19 @@
+func Shoot_Physical_Ball():
+	var rb_ball = RigidBody3D.new()
+	var ball = CSGSphere3D.new()
+	var collision = CollisionShape3D.new()
+	var sphereshape = SphereShape3D.new()
+
+	collision.shape = sphereshape
+	var parent = owner.get_parent()
+
+	rb_ball.position = global_position
+	ball.name = "NewBall"
+	ball.use_collision = true
+	ball.scale = Vector3.ONE
+
+	parent.add_child(rb_ball)
+	rb_ball.add_child(ball)
+	rb_ball.add_child(collision)
+
+	rb_ball.apply_impulse(-global_transform.basis.z * 50)

@@ -1,17 +1,15 @@
-[gd_scene load_steps=24 format=4 uid="uid://dtxal62ad6m0g"]
+[gd_scene load_steps=22 format=4 uid="uid://dtxal62ad6m0g"]
 
-[ext_resource type="Script" uid="uid://dmwajyxf363kl" path="res://Assets/Scripts/Nodes/CharacterEntity.gd" id="1_5fank"]
-[ext_resource type="Script" uid="uid://jg3tsx58plp0" path="res://Assets/Scripts/Nodes/PlayerBody.gd" id="1_7gy7k"]
+[ext_resource type="Script" uid="uid://dmwajyxf363kl" path="res://Assets/Scripts/Classes/CharacterEntity.gd" id="1_5fank"]
+[ext_resource type="Script" uid="uid://jg3tsx58plp0" path="res://Assets/Scripts/BasicMovement.gd" id="1_7gy7k"]
 [ext_resource type="Script" uid="uid://cpss62xjnb5vi" path="res://Assets/Scripts/ShooterComponent.gd" id="2_tr1td"]
-[ext_resource type="Resource" uid="uid://deos57mhwgunk" path="res://Assets/Resources/CharacterStats/PlayerStats.tres" id="2_x5wyh"]
 [ext_resource type="PackedScene" uid="uid://dfb1ixsrvtvmd" path="res://Assets/Scenes/ui/game_ui.tscn" id="3_6n3ac"]
 [ext_resource type="PackedScene" uid="uid://0ltem1mjcrk2" path="res://Assets/Scenes/Prefabs/shoot_decal.tscn" id="3_qxcix"]
 [ext_resource type="AudioStream" uid="uid://bqi54qjlja03b" path="res://Assets/Sounds/SFX/laserShoot.wav" id="4_2h2gr"]
 [ext_resource type="PackedScene" uid="uid://bjfifx8ngxmet" path="res://Assets/Scenes/Prefabs/ShootParticle.tscn" id="4_ljrrx"]
 [ext_resource type="PackedScene" uid="uid://cj2ety7k6skjk" path="res://Assets/3DModels/Testing/Weapons/SM_TestGun.fbx" id="5_xfnmv"]
 [ext_resource type="Script" uid="uid://dcmvcs438g0rq" path="res://Assets/Scripts/skeleton_ik_3d.gd" id="6_xfnmv"]
-[ext_resource type="Script" uid="uid://cevvlhti42w81" path="res://Assets/Scripts/Components/FirstPersonCameraComponent.gd" id="12_2t2bi"]
-[ext_resource type="Resource" uid="uid://i5ceoi84baak" path="res://Assets/Resources/CameraControls/PlayerCamControls.tres" id="13_0rv7e"]
+[ext_resource type="AudioStream" uid="uid://dbups7e8js6wb" path="res://Assets/Sounds/Music/Chiptune.mp3" id="7_4rll6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6b44n"]
 albedo_color = Color(0.2566953, 0.49112505, 0.262041, 1)
@@ -155,18 +153,18 @@ height = 2.7163086
 
 [node name="CharacterEntity" type="Node3D"]
 script = ExtResource("1_5fank")
-Stats = ExtResource("2_x5wyh")
 metadata/_custom_type_script = "uid://dmwajyxf363kl"
 
-[node name="Player" type="CharacterBody3D" parent="."]
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("1_7gy7k")
+camera = NodePath("BodyGraphic/Camera3D")
 
 [node name="BodyGraphic" type="CSGCylinder3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3359375, 0)
 material_override = SubResource("StandardMaterial3D_6b44n")
 height = 2.671875
 
-[node name="Camera3D" type="Camera3D" parent="Player/BodyGraphic" node_paths=PackedStringArray("gunTip")]
+[node name="Camera3D" type="Camera3D" parent="Player/BodyGraphic"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2364292, -0.18721652)
 environment = SubResource("Environment_6b44n")
 fov = 65.0
@@ -175,7 +173,6 @@ script = ExtResource("2_tr1td")
 decal = ExtResource("3_qxcix")
 particle = ExtResource("4_ljrrx")
 SoundToPlay = ExtResource("4_2h2gr")
-gunTip = NodePath("GunPos/SM_TestGun/GunPosTip")
 
 [node name="GameUI" parent="Player/BodyGraphic/Camera3D" instance=ExtResource("3_6n3ac")]
 size_flags_horizontal = 3
@@ -270,6 +267,29 @@ tip_bone = &"hand_r"
 target_node = NodePath("../../../../GunPos/SM_TestGun/rightarm_target")
 script = ExtResource("6_xfnmv")
 
+[node name="Music" type="AudioStreamPlayer3D" parent="Player/BodyGraphic/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5723667, 0.18721652)
+stream = ExtResource("7_4rll6")
+attenuation_model = 3
+volume_db = -60.0
+autoplay = true
+area_mask = 65535
+playback_type = 1
+doppler_tracking = 1
+parameters/looping = true
+
+[node name="Shoot" type="AudioStreamPlayer3D" parent="Player/BodyGraphic/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5723667, 0.18721652)
+stream = ExtResource("4_2h2gr")
+attenuation_model = 3
+volume_db = -20.0
+area_mask = 65535
+playback_type = 1
+doppler_tracking = 1
+
+[node name="AudioListener3D" type="AudioListener3D" parent="Player/BodyGraphic/Camera3D"]
+current = true
+
 [node name="GunPos" type="Node3D" parent="Player/BodyGraphic/Camera3D"]
 
 [node name="SM_TestGun" parent="Player/BodyGraphic/Camera3D/GunPos" instance=ExtResource("5_xfnmv")]
@@ -283,13 +303,6 @@ transform = Transform3D(0.067917675, -0.78849775, 0.61127603, 0.9302297, -0.1714
 
 [node name="rightarm_target" type="Node3D" parent="Player/BodyGraphic/Camera3D/GunPos/SM_TestGun"]
 transform = Transform3D(-0.2165322, -0.037464965, -0.9755567, -0.9053702, -0.3661601, 0.2150156, -0.36526537, 0.9297974, 0.045365687, 0.019620985, 0.026607037, -0.18831062)
-
-[node name="FPSCameraComponent" type="Node3D" parent="Player/BodyGraphic/Camera3D" node_paths=PackedStringArray("target_camera", "target_player")]
-script = ExtResource("12_2t2bi")
-cam_controls = ExtResource("13_0rv7e")
-target_camera = NodePath("..")
-target_player = NodePath("../../..")
-metadata/_custom_type_script = "uid://cevvlhti42w81"
 
 [node name="CollisionComponent" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3581543, 0)

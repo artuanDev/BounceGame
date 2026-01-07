@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 @onready var NavAgent: NavigationAgent3D = $NavigationAgent3D
-@onready var player: Node3D = get_tree().get_current_scene().get_node("Player")
+@onready var player: Node3D = get_tree().get_current_scene().get_node("CharacterEntity")
 @export var animationPlayer:AnimationPlayerBasic
 const SPEED := 5.0
 

@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=4 uid="uid://ciukptjiywrwk"]
+[gd_scene load_steps=10 format=4 uid="uid://ciukptjiywrwk"]
 
 [ext_resource type="PackedScene" uid="uid://dtxal62ad6m0g" path="res://Assets/Scenes/Prefabs/Player.tscn" id="2_5d8hy"]
+[ext_resource type="AudioStream" uid="uid://dbups7e8js6wb" path="res://Assets/Sounds/Music/Chiptune.mp3" id="3_dl7wa"]
 [ext_resource type="PackedScene" uid="uid://cmix2pt6hn6ny" path="res://Assets/Scenes/Prefabs/zombie.tscn" id="3_iti4s"]
+[ext_resource type="AudioStream" uid="uid://bqi54qjlja03b" path="res://Assets/Sounds/SFX/laserShoot.wav" id="4_x4su1"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_iti4s"]
 vertices = PackedVector3Array(-397.6108, -0.5509206, -274.51602, -397.6108, -0.5509206, 274.48398, 397.6392, -0.5509206, 274.48398, 397.6392, -0.5509206, -274.51602)
@@ -56,7 +58,7 @@ data = PackedVector3Array(-1.0091, 2.3845, 0.0942, -1.0091, 1.8403, 0.0942, -1.0
 [node name="TestArea" type="NavigationRegion3D"]
 navigation_mesh = SubResource("NavigationMesh_iti4s")
 
-[node name="Player" parent="." instance=ExtResource("2_5d8hy")]
+[node name="CharacterEntity" parent="." instance=ExtResource("2_5d8hy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.30544484, 7.892529)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -77,3 +79,26 @@ skeleton = NodePath("")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Geometry"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 1.0922873, 0.050920725, -1.4134388)
 shape = SubResource("ConcavePolygonShape3D_5d8hy")
+
+[node name="Music" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5723667, 0.18721652)
+stream = ExtResource("3_dl7wa")
+attenuation_model = 3
+volume_db = -60.0
+autoplay = true
+area_mask = 65535
+playback_type = 1
+doppler_tracking = 1
+parameters/looping = true
+
+[node name="Shoot" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5723667, 0.18721652)
+stream = ExtResource("4_x4su1")
+attenuation_model = 3
+volume_db = -20.0
+area_mask = 65535
+playback_type = 1
+doppler_tracking = 1
+
+[node name="AudioListener3D" type="AudioListener3D" parent="."]
+current = true

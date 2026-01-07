@@ -5,11 +5,10 @@ var ray_range = 2000.0
 @export var decal: PackedScene
 @export var particle: PackedScene
 
-@export var PhysicalBall : bool
 @export var SoundToPlay: AudioStreamWAV
 
 @onready var gun = $GunPos
-@onready var gunTip = $/root/TestArea/Player/BodyGraphic/Camera3D/GunPos/SM_TestGun/GunPosTip
+@export var gunTip: Node3D
 
 var startPos : Vector3
 
@@ -23,36 +22,13 @@ func _process(delta: float) -> void:
 
 func _input(event):
 	if event.is_action_pressed("shoot"):
-		if PhysicalBall:
-			Shoot_Physical_Ball()
-		else:
-			Get_Camera_Collision()
-
-func Shoot_Physical_Ball():
-	var rb_ball = RigidBody3D.new()
-	var ball = CSGSphere3D.new()
-	var collision = CollisionShape3D.new()
-	var sphereshape = SphereShape3D.new()
-
-	collision.shape = sphereshape
-	var parent = owner.get_parent()
-
-	rb_ball.position = global_position
-	ball.name = "NewBall"
-	ball.use_collision = true
-	ball.scale = Vector3.ONE
-
-	parent.add_child(rb_ball)
-	rb_ball.add_child(ball)
-	rb_ball.add_child(collision)
-
-	rb_ball.apply_impulse(-global_transform.basis.z * 50)
+		Get_Camera_Collision()
 
 func Get_Camera_Collision():
 	if Input.is_action_just_pressed("shoot"):
 
-		$Shoot.pitch_scale += randf_range(-0.1, 0.1)
-		$Shoot.play()
+		$/root/TestArea/Shoot.pitch_scale += randf_range(-0.1, 0.1)
+		$/root/TestArea/Shoot.play()
 
 		# Muzzle particle
 		var particle_instance = particle.instantiate()

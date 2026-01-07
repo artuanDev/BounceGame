@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CameraControls" load_steps=2 format=3 uid="uid://i5ceoi84baak"]
+
+[ext_resource type="Script" uid="uid://c1n1rembwapjw" path="res://Assets/Scripts/Resources/CameraControls.gd" id="1_2lpc0"]
+
+[resource]
+script = ExtResource("1_2lpc0")
+metadata/_custom_type_script = "uid://c1n1rembwapjw"
