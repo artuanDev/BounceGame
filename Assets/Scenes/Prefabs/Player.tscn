@@ -1,15 +1,11 @@
-[gd_scene load_steps=24 format=4 uid="uid://dtxal62ad6m0g"]
+[gd_scene load_steps=20 format=4 uid="uid://dtxal62ad6m0g"]
 
 [ext_resource type="Script" uid="uid://dmwajyxf363kl" path="res://Assets/Scripts/Nodes/CharacterEntity.gd" id="1_5fank"]
 [ext_resource type="Script" uid="uid://jg3tsx58plp0" path="res://Assets/Scripts/Nodes/PlayerBody.gd" id="1_7gy7k"]
-[ext_resource type="Script" uid="uid://cpss62xjnb5vi" path="res://Assets/Scripts/ShooterComponent.gd" id="2_tr1td"]
 [ext_resource type="Resource" uid="uid://deos57mhwgunk" path="res://Assets/Resources/CharacterStats/PlayerStats.tres" id="2_x5wyh"]
 [ext_resource type="PackedScene" uid="uid://dfb1ixsrvtvmd" path="res://Assets/Scenes/ui/game_ui.tscn" id="3_6n3ac"]
-[ext_resource type="PackedScene" uid="uid://0ltem1mjcrk2" path="res://Assets/Scenes/Prefabs/shoot_decal.tscn" id="3_qxcix"]
-[ext_resource type="AudioStream" uid="uid://bqi54qjlja03b" path="res://Assets/Sounds/SFX/laserShoot.wav" id="4_2h2gr"]
-[ext_resource type="PackedScene" uid="uid://bjfifx8ngxmet" path="res://Assets/Scenes/Prefabs/ShootParticle.tscn" id="4_ljrrx"]
-[ext_resource type="PackedScene" uid="uid://cj2ety7k6skjk" path="res://Assets/3DModels/Testing/Weapons/SM_TestGun.fbx" id="5_xfnmv"]
-[ext_resource type="Script" uid="uid://dcmvcs438g0rq" path="res://Assets/Scripts/skeleton_ik_3d.gd" id="6_xfnmv"]
+[ext_resource type="Script" uid="uid://bnxc1ujwik6vv" path="res://Assets/Scripts/Animation/HandToGunAttacher.gd" id="7_ljrrx"]
+[ext_resource type="PackedScene" uid="uid://c2yf6ercp6f4p" path="res://Assets/Scenes/Prefabs/Test_Pistol.tscn" id="10_0q5yk"]
 [ext_resource type="Script" uid="uid://cevvlhti42w81" path="res://Assets/Scripts/Components/FirstPersonCameraComponent.gd" id="12_2t2bi"]
 [ext_resource type="Resource" uid="uid://i5ceoi84baak" path="res://Assets/Resources/CameraControls/PlayerCamControls.tres" id="13_0rv7e"]
 
@@ -166,23 +162,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3359375, 0)
 material_override = SubResource("StandardMaterial3D_6b44n")
 height = 2.671875
 
-[node name="Camera3D" type="Camera3D" parent="Player/BodyGraphic" node_paths=PackedStringArray("gunTip")]
+[node name="Camera3D" type="Camera3D" parent="Player/BodyGraphic"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2364292, -0.18721652)
 environment = SubResource("Environment_6b44n")
 fov = 65.0
 near = 0.001
-script = ExtResource("2_tr1td")
-decal = ExtResource("3_qxcix")
-particle = ExtResource("4_ljrrx")
-SoundToPlay = ExtResource("4_2h2gr")
-gunTip = NodePath("GunPos/SM_TestGun/GunPosTip")
+
+[node name="FPSCameraComponent" type="Node3D" parent="Player/BodyGraphic/Camera3D" node_paths=PackedStringArray("target_camera", "target_player")]
+script = ExtResource("12_2t2bi")
+cam_controls = ExtResource("13_0rv7e")
+target_camera = NodePath("..")
+target_player = NodePath("../../..")
+metadata/_custom_type_script = "uid://cevvlhti42w81"
 
 [node name="GameUI" parent="Player/BodyGraphic/Camera3D" instance=ExtResource("3_6n3ac")]
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="SM_TestArms" type="Node3D" parent="Player/BodyGraphic/Camera3D"]
+[node name="SM_TestArms" type="Node3D" parent="Player/BodyGraphic/Camera3D" node_paths=PackedStringArray("left_ik", "right_ik", "gun_to_put_hands_into")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, -0.31692648, 0.18721652)
+script = ExtResource("7_ljrrx")
+left_ik = NodePath("Armature/Skeleton3D/left_hand_ik")
+right_ik = NodePath("Armature/Skeleton3D/right_hand_ik")
+gun_to_put_hands_into = NodePath("../GunPos/SM_TestGun")
 
 [node name="Armature" type="Node3D" parent="Player/BodyGraphic/Camera3D/SM_TestArms"]
 transform = Transform3D(100, 0, 0, 0, -1.1920929e-05, 99.99999, 0, -99.99999, -1.1920929e-05, 0, 0, 0)
@@ -256,40 +258,21 @@ bones/8/scale = Vector3(1, 1, 1)
 mesh = SubResource("ArrayMesh_g131d")
 skin = SubResource("Skin_2bgu6")
 
-[node name="SkeletonIK3D" type="SkeletonIK3D" parent="Player/BodyGraphic/Camera3D/SM_TestArms/Armature/Skeleton3D"]
+[node name="left_hand_ik" type="SkeletonIK3D" parent="Player/BodyGraphic/Camera3D/SM_TestArms/Armature/Skeleton3D"]
 transform = Transform3D(0.010000001, 6.9388955e-24, 0, 0, -1.1920932e-09, -0.010000002, 0, 0.010000002, -1.1920932e-09, 0, 0, 0)
 root_bone = &"biceps_l"
 tip_bone = &"hand_l"
-target_node = NodePath("../../../../GunPos/SM_TestGun/leftarm_target")
-script = ExtResource("6_xfnmv")
 
-[node name="SkeletonIK3D2" type="SkeletonIK3D" parent="Player/BodyGraphic/Camera3D/SM_TestArms/Armature/Skeleton3D"]
+[node name="right_hand_ik" type="SkeletonIK3D" parent="Player/BodyGraphic/Camera3D/SM_TestArms/Armature/Skeleton3D"]
 transform = Transform3D(0.010000001, 6.9388955e-24, 0, 0, -1.1920932e-09, -0.010000002, 0, 0.010000002, -1.1920932e-09, 0, 0, 0)
 root_bone = &"biceps_r"
 tip_bone = &"hand_r"
-target_node = NodePath("../../../../GunPos/SM_TestGun/rightarm_target")
-script = ExtResource("6_xfnmv")
 
 [node name="GunPos" type="Node3D" parent="Player/BodyGraphic/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.44635516, -0.5726466, -1.2745919)
 
-[node name="SM_TestGun" parent="Player/BodyGraphic/Camera3D/GunPos" instance=ExtResource("5_xfnmv")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.31051612, -0.49115372, -0.81194514)
-
-[node name="GunPosTip" type="Node3D" parent="Player/BodyGraphic/Camera3D/GunPos/SM_TestGun"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21483755, 1.0838062)
-
-[node name="leftarm_target" type="Node3D" parent="Player/BodyGraphic/Camera3D/GunPos/SM_TestGun"]
-transform = Transform3D(0.067917675, -0.78849775, 0.61127603, 0.9302297, -0.1714237, -0.32447895, 0.36063814, 0.590665, 0.72184134, 0.27149656, -0.13950753, -0.2101838)
-
-[node name="rightarm_target" type="Node3D" parent="Player/BodyGraphic/Camera3D/GunPos/SM_TestGun"]
-transform = Transform3D(-0.2165322, -0.037464965, -0.9755567, -0.9053702, -0.3661601, 0.2150156, -0.36526537, 0.9297974, 0.045365687, 0.019620985, 0.026607037, -0.18831062)
-
-[node name="FPSCameraComponent" type="Node3D" parent="Player/BodyGraphic/Camera3D" node_paths=PackedStringArray("target_camera", "target_player")]
-script = ExtResource("12_2t2bi")
-cam_controls = ExtResource("13_0rv7e")
-target_camera = NodePath("..")
-target_player = NodePath("../../..")
-metadata/_custom_type_script = "uid://cevvlhti42w81"
+[node name="SM_TestGun" parent="Player/BodyGraphic/Camera3D/GunPos" node_paths=PackedStringArray("cam") instance=ExtResource("10_0q5yk")]
+cam = NodePath("../..")
 
 [node name="CollisionComponent" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3581543, 0)

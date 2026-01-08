@@ -22,9 +22,9 @@ func _process(delta: float) -> void:
 
 func _input(event):
 	if event.is_action_pressed("shoot"):
-		Get_Camera_Collision()
+		Shoot_From_Camera()
 
-func Get_Camera_Collision():
+func Shoot_From_Camera():
 	if Input.is_action_just_pressed("shoot"):
 
 		$/root/TestArea/Shoot.pitch_scale += randf_range(-0.1, 0.1)
