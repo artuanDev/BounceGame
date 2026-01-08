@@ -1,3 +1,4 @@
+@icon("res://Assets/Textures/Icons/HandGunIconpng.png")
 class_name HandGun extends Node3D
 
 @export var Gun: GunStats

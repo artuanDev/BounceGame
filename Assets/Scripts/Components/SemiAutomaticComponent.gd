@@ -1,4 +1,6 @@
-class_name SemiautomaticComponent extends Node3D
+@icon("res://Assets/Textures/Icons/PistolIcon.svg")
+extends Node3D
+class_name SemiautomaticComponent 
 
 @export var gun_info: HandGun;
 @export var sound_player: AudioStreamPlayer3D

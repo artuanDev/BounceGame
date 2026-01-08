@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://0ltem1mjcrk2"]
 
-[ext_resource type="Texture2D" uid="uid://ba58mdj7t6ijx" path="res://Assets/Textures/icon.svg" id="1_on3ls"]
+[ext_resource type="Texture2D" uid="uid://ba58mdj7t6ijx" path="res://Assets/Textures/Icons/icon.svg" id="1_on3ls"]
 
 [node name="Decal" type="Decal"]
 size = Vector3(1, 1, 1)
