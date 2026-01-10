@@ -8,5 +8,5 @@ shader = ExtResource("1_74g6p")
 shader_parameter/metal = 0.0
 shader_parameter/roughness = 1.0
 shader_parameter/gridSize = 4.0
-shader_parameter/gridThick = 1.4
-shader_parameter/tint = Color(0.17591703, 0.40888336, 0.58816504, 1)
+shader_parameter/gridThick = 1.48
+shader_parameter/tint = Color(0.09941373, 0.2615922, 0.3872136, 1)

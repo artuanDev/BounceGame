@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://c2yf6ercp6f4p"]
+[gd_scene load_steps=16 format=4 uid="uid://c2yf6ercp6f4p"]
 
 [ext_resource type="Script" uid="uid://bfolaisj6vd7a" path="res://Assets/Scripts/Nodes/HandGun.gd" id="1_ep2cg"]
 [ext_resource type="Resource" uid="uid://j46obvk6l34d" path="res://Assets/Resources/Weapons/Guns/BasePistolStats.tres" id="2_4fjeh"]
@@ -109,6 +109,80 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ydxa8")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_373cp"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+grow = true
+grow_amount = 0.003
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2nkmh"]
+next_pass = SubResource("StandardMaterial3D_373cp")
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(0.27387273, 0.27387273, 0.27387273, 1)
+roughness = 0.0
+rim_enabled = true
+rim_tint = 1.0
+clearcoat_enabled = true
+ao_light_affect = 1.0
+ao_on_uv2 = true
+subsurf_scatter_skin_mode = true
+backlight_enabled = true
+backlight = Color(0.16164348, 0.5797207, 0.775692, 1)
+disable_receive_shadows = true
+stencil_mode = 1
+stencil_flags = 2
+stencil_color = Color(1, 1, 1, 1)
+stencil_outline_thickness = 0.003
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1rqu"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+grow = true
+grow_amount = 0.003
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkv0f"]
+next_pass = SubResource("StandardMaterial3D_h1rqu")
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(0.641063, 0.38392505, 0.14953554, 1)
+disable_receive_shadows = true
+stencil_mode = 1
+stencil_flags = 2
+stencil_color = Color(1, 1, 1, 1)
+stencil_outline_thickness = 0.003
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qmxmi"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+grow = true
+grow_amount = 0.003
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r4gi8"]
+next_pass = SubResource("StandardMaterial3D_qmxmi")
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(0.83304447, 0.03838899, 0.1651685, 1)
+stencil_mode = 1
+stencil_flags = 2
+stencil_color = Color(1, 1, 1, 1)
+stencil_outline_thickness = 0.003
+
 [node name="SM_TestGun" type="Node3D" node_paths=PackedStringArray("GunTip", "left_target", "right_target")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_ep2cg")
@@ -125,8 +199,12 @@ sound_player = NodePath("../Shoot")
 metadata/_custom_type_script = "uid://diqbyikxusnke"
 
 [node name="Test_Gun" type="MeshInstance3D" parent="."]
+layers = 2
 mesh = SubResource("ArrayMesh_mxe3q")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_2nkmh")
+surface_material_override/1 = SubResource("StandardMaterial3D_fkv0f")
+surface_material_override/2 = SubResource("StandardMaterial3D_r4gi8")
 
 [node name="GunPosTip" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21483755, 1.0838062)

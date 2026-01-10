@@ -1,11 +1,13 @@
-[gd_scene load_steps=20 format=4 uid="uid://dtxal62ad6m0g"]
+[gd_scene load_steps=22 format=4 uid="uid://dtxal62ad6m0g"]
 
 [ext_resource type="Script" uid="uid://dmwajyxf363kl" path="res://Assets/Scripts/Nodes/CharacterEntity.gd" id="1_5fank"]
 [ext_resource type="Script" uid="uid://jg3tsx58plp0" path="res://Assets/Scripts/Nodes/PlayerBody.gd" id="1_7gy7k"]
 [ext_resource type="Resource" uid="uid://deos57mhwgunk" path="res://Assets/Resources/CharacterStats/PlayerStats.tres" id="2_x5wyh"]
 [ext_resource type="PackedScene" uid="uid://dfb1ixsrvtvmd" path="res://Assets/Scenes/ui/game_ui.tscn" id="3_6n3ac"]
 [ext_resource type="Script" uid="uid://bnxc1ujwik6vv" path="res://Assets/Scripts/Animation/HandToGunAttacher.gd" id="7_ljrrx"]
+[ext_resource type="Script" uid="uid://bebtgnnksmlqk" path="res://Assets/Scripts/Utilities/WeaponViewport.gd" id="9_ljrrx"]
 [ext_resource type="PackedScene" uid="uid://c2yf6ercp6f4p" path="res://Assets/Scenes/Prefabs/Test_Pistol.tscn" id="10_0q5yk"]
+[ext_resource type="Script" uid="uid://d26q65b30cenv" path="res://Assets/Scripts/Utilities/WeaponCamera.gd" id="10_5fank"]
 [ext_resource type="Script" uid="uid://cevvlhti42w81" path="res://Assets/Scripts/Components/FirstPersonCameraComponent.gd" id="12_2t2bi"]
 [ext_resource type="Resource" uid="uid://i5ceoi84baak" path="res://Assets/Resources/CameraControls/PlayerCamControls.tres" id="13_0rv7e"]
 
@@ -160,10 +162,12 @@ script = ExtResource("1_7gy7k")
 [node name="BodyGraphic" type="CSGCylinder3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3359375, 0)
 material_override = SubResource("StandardMaterial3D_6b44n")
+cast_shadow = 0
 height = 2.671875
 
 [node name="Camera3D" type="Camera3D" parent="Player/BodyGraphic"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2364292, -0.18721652)
+cull_mask = 1
 environment = SubResource("Environment_6b44n")
 fov = 65.0
 near = 0.001
@@ -255,6 +259,7 @@ bones/8/rotation = Quaternion(0, 0, 0, 1)
 bones/8/scale = Vector3(1, 1, 1)
 
 [node name="Test_Arms" type="MeshInstance3D" parent="Player/BodyGraphic/Camera3D/SM_TestArms/Armature/Skeleton3D"]
+layers = 2
 mesh = SubResource("ArrayMesh_g131d")
 skin = SubResource("Skin_2bgu6")
 
@@ -277,3 +282,23 @@ cam = NodePath("../..")
 [node name="CollisionComponent" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3581543, 0)
 shape = SubResource("CylinderShape3D_6b44n")
+
+[node name="WeaponViewport" type="SubViewportContainer" parent="Player"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="Player/WeaponViewport"]
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+script = ExtResource("9_ljrrx")
+
+[node name="Camera3D" type="Camera3D" parent="Player/WeaponViewport/SubViewport" node_paths=PackedStringArray("main_cam")]
+cull_mask = 2
+environment = SubResource("Environment_6b44n")
+fov = 65.0
+script = ExtResource("10_5fank")
+main_cam = NodePath("../../../BodyGraphic/Camera3D")

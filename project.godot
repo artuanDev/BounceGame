@@ -79,6 +79,9 @@ setrand={
 ]
 }
 
-[physics]
+[layer_names]
 
-3d/physics_engine="Jolt Physics"
+2d_render/layer_1="Default"
+3d_render/layer_1="Default"
+2d_render/layer_2="Weapon"
+3d_render/layer_2="Weapon"

@@ -15,7 +15,7 @@ varying vec3 local_position; // holds WORLD vertex position
 float grid_lines(vec2 uv) {
 	float v = round(clamp(sin((uv.y - 0.5) * gridSize) + gridThick, 0.0, 1.0));
 	float h = round(clamp(sin((uv.x - 0.5) * gridSize) + gridThick, 0.0, 1.0));
-	return min(v, h);
+	return v * h;
 }
 
 void vertex() {
